@@ -1,8 +1,9 @@
 # InMoovBrain Server
+Controla tu InMoov desde tu PC
 
-## Descripción general
+## Descripción
 
-**InMoovBrain Server** es un aplicación hecha en Python para controlar el robot InMoov imprimible en impresoras 3D (http://www.inmoov.fr) diseñado por Gael Langevin. Se conecta al Arduino para controlar los servos y sensores conectados al mismo e integra un pequeño servidor Web que nos permite que controlemos las funciones del robot mediante una aplicación Web externa (por ejemplo [InMoovBrain Console](https://github.com/negum/inmoovbrainconsole)). Para la comunicación del servidor con el Arduino se utiliza la librería MRLComm utilizada en el proyecto [MyRobotLab](http://www.myrobotlab.org)
+**InMoovBrain Server** es un aplicación hecha en Python para controlar el robot InMoov imprimible en impresoras 3D (http://www.inmoov.fr) diseñado por Gael Langevin. Se conecta al Arduino para controlar los servos y sensores conectados al mismo e integra un pequeño servidor Web que nos permite que controlemos las funciones del robot mediante una aplicación Web externa (por ejemplo [InMoovBrain Console](https://github.com/ugogarcia/inmoovbrainconsole)). Para la comunicación del servidor con el Arduino se utiliza la librería MRLComm utilizada en el proyecto [MyRobotLab](http://www.myrobotlab.org)
 
 ## Requisitos
 El siguiente software es necesario para que funcione InMoovBrain Server:
@@ -51,4 +52,4 @@ Para probar el correcto funcionamiento del servidor basta con conectarse desde u
 
 
 ## ¿Y ahora qué?
-Si tienes ya los servos conectados al arduino sólo te queda configurar [InMoovBrain Console](https://github.com/negum/inmoovbrainconsole) para poder controlar desde el interfaz Web tu InMoov.
+Si tienes ya los servos conectados al arduino sólo te queda configurar [InMoovBrain Console](https://github.com/ugogarcia/inmoovbrainconsole) para poder controlar desde el interfaz Web tu InMoov.
