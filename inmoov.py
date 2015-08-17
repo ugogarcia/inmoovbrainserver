@@ -1,5 +1,7 @@
 __author__ = 'Ugo'
-# TODO. La propiedad isAttached hay que calcularla correctamente
+# TODO. Al acceder al servidor que devuelva algún mensaje, como las parámetros que acepta
+# La propiedad isAttached hay que calcularla correctamente
+# Después de cada print debemos dejar un \n para que los mensajes de la consola no salgan superpuestos
 import arduinocontroller
 import inmoovhand
 import inmoovarm

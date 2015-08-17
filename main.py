@@ -10,9 +10,12 @@ def setup(myInMoov):
         print ("Error initializing serial port")
         return True
     myInMoov.head.neck.servoPin=12
-    myInMoov.head.rotation.servoPin=13
-    myInMoov.head.attach()
-    myInMoov.rest()
+    myInMoov.head.rotate.servoPin=13
+
+
+
+    #myInMoov.head.attach()
+    #myInMoov.rest()
     #myInMoov.rightHand.setSpeed(100,100,100,100,100,100)
     #myInMoov.rightHand.thumb.moveTo(0)
     #myInMoov.rightHand.index.moveTo(0)

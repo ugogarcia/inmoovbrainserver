@@ -83,6 +83,7 @@ def do_getservostatus (response):
     status["rightarm"]=myInMoov.rightArm.isAttached
     status["righthand"]=myInMoov.rightHand.isAttached
     status["head"]=myInMoov.head.isAttached
+    print ("HEAD is Attached: ", myInMoov.head.isAttached)
     response.wfile.write(bytes(json.dumps(status), "utf-8"))
 
 def do_getserverstatus (response):
@@ -117,6 +118,18 @@ class MyServer(BaseHTTPRequestHandler):
             do_getservostatus(self)
         elif cmd=="getserverstatus":
             do_getserverstatus(self)
+        elif cmd=="":
+            welcome_msg="<html><head><style>body{font: 14px 'Trebuchet MS', sans-serif;}</style></hesd><body>"
+            welcome_msg=welcome_msg+"<font size=14px>InMoovBrain Console</font><br><br>"
+            welcome_msg=welcome_msg+"<strong>Available commands:<br></strong>"
+            welcome_msg=welcome_msg+"getserverstatus - To test if the server is alive or not. Returns the version of the server - http://path_to_server/getserverstatus<br>"
+            welcome_msg=welcome_msg+"runpythoncmd - Runs a python sentence on the server - http://path_to_server/runpthoncmd/myInMoov.head.rotate.moveTo(104)<br>"
+            welcome_msg=welcome_msg+"getservopositions - Gets the positions of each servo - http://path_to_server/getservopositions<br>"
+            welcome_msg=welcome_msg+"getservopostatus - Gets if the servos area attached or not - http://path_to_server/getservostatus<br>"
+            welcome_msg=welcome_msg+"</body></html>"
+            self.wfile.write(bytes(welcome_msg, "utf-8"))
+        else:
+            print ("Command not recognized: ", cmd)
 
 print ("Running setup...")
 
