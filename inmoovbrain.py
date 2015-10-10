@@ -23,7 +23,7 @@ def execute(code):
     sys.stdout = fake_stdout
 
     try:
-        #try if this is expressions
+        # try if this is expressions
         ret = eval(code) #, globals(), locals())
         result = fake_stdout.getvalue()
         sys.stdout = __stdout
@@ -61,6 +61,7 @@ def do_getservopositions (response):
     positions["lefthand_pinky"]=myInMoov.leftHand.pinky.currentPos
     positions["rightarm_omoplate"]=myInMoov.rightArm.omoplate.currentPos
     positions["rightarm_shoulder"]=myInMoov.rightArm.shoulder.currentPos
+    print (myInMoov.rightArm.shoulder.currentPos)
     positions["rightarm_rotate"]=myInMoov.rightArm.rotate.currentPos
     positions["rightarm_bicep"]=myInMoov.rightArm.bicep.currentPos
     positions["righthand_wrist"]=myInMoov.rightHand.wrist.currentPos
@@ -78,12 +79,11 @@ def do_getservopositions (response):
 
 def do_getservostatus (response):
     status={}
-    status["leftarm"]=myInMoov.leftArm.isAttached
-    status["lefthand"]=myInMoov.leftHand.isAttached
-    status["rightarm"]=myInMoov.rightArm.isAttached
-    status["righthand"]=myInMoov.rightHand.isAttached
-    status["head"]=myInMoov.head.isAttached
-    print ("HEAD is Attached: ", myInMoov.head.isAttached)
+    status["leftarm"]=myInMoov.leftArm.bicep.isAttached or myInMoov.leftArm.rotate.isAttached or myInMoov.leftArm.shoulder.isAttached or myInMoov.leftArm.omoplate.isAttached
+    status["rightarm"]=myInMoov.rightArm.bicep.isAttached or myInMoov.rightArm.rotate.isAttached or myInMoov.rightArm.shoulder.isAttached or myInMoov.rightArm.omoplate.isAttached
+    status["lefthand"]=myInMoov.leftHand.thumb.isAttached or myInMoov.leftHand.index.isAttached or myInMoov.leftHand.majeure.isAttached or myInMoov.leftHand.ringfinger.isAttached or myInMoov.leftHand.pinky.isAttached or myInMoov.leftHand.wrist.isAttached
+    status["righthand"]=myInMoov.rightHand.thumb.isAttached or myInMoov.rightHand.index.isAttached or myInMoov.rightHand.majeure.isAttached or myInMoov.rightHand.ringfinger.isAttached or myInMoov.rightHand.pinky.isAttached or myInMoov.rightHand.wrist.isAttached
+    status["head"]=myInMoov.head.neck.isAttached or myInMoov.head.rotate.isAttached or myInMoov.head.jaw.isAttached or myInMoov.head.eyeX.isAttached or myInMoov.head.eyeY.isAttached
     response.wfile.write(bytes(json.dumps(status), "utf-8"))
 
 def do_getserverstatus (response):
@@ -141,7 +141,6 @@ print ("Running setup...")
 #song.play()
 #quit()
 
-
 myInMoov=inmoov.InMoov()
 if not main.setup(myInMoov):
     print ("Error during setup. Exiting...")
@@ -158,6 +157,7 @@ try:
 except KeyboardInterrupt:
     pass
 
+main.end(myInMoov)
 myServer.server_close()
 print("Server Stops - %s:%s" % (hostName, hostPort))
 
