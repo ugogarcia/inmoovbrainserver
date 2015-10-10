@@ -9,15 +9,24 @@ class InMoovHead():
         self.jaw=servo.Servo(self.arduinoController)
         self.eyeX=servo.Servo(self.arduinoController)
         self.eyeY=servo.Servo(self.arduinoController)
-        self.isAttached=False
 
-    def attach(self):
+    def attach(self, neckPin=None, rotatePin=None, jawPin=None, eyeXPin=None, eyeYPin=None):
+        if neckPin is not None:
+            self.neck.servoPin=neckPin
+        if rotatePin is not None:
+            self.rotate.servoPin=rotatePin
+        if jawPin is not None:
+            self.jaw.servoPin=jawPin
+        if eyeXPin is not None:
+            self.eyeX.servoPin=eyeXPin
+        if eyeYPin is not None:
+            self.eyeY.servoPin=eyeYPin
+
         self.neck.attach()
         self.rotate.attach()
         self.jaw.attach()
         self.eyeX.attach()
         self.eyeY.attach()
-        self.isAttached=True
 
     def detach(self):
         self.neck.detach()
@@ -25,7 +34,6 @@ class InMoovHead():
         self.jaw.detach()
         self.eyeX.detach()
         self.eyeY.detach()
-        self.isAttached=False
 
     def setSpeed (self, speedNeck, speedRotate, speedJaw, speedEyeX, speedEyeY):
         self.neck.setSpeed(speedNeck)
@@ -35,9 +43,14 @@ class InMoovHead():
         self.eyeY.setSpeed(speedEyeY)
 
     def rest (self):
-        self.neck.rest()
-        self.rotate.rest()
-        self.jaw.rest()
-        self.eyeX.rest()
-        self.eyeY.rest()
+        if self.neck.servoPin!=0:
+            self.neck.rest()
+        if self.rotate.servoPin!=0:
+            self.rotate.rest()
+        if self.jaw.servoPin!=0:
+            self.jaw.rest()
+        if self.eyeX.servoPin!=0:
+            self.eyeX.rest()
+        if self.eyeY.servoPin!=0:
+            self.eyeY.rest()
 
