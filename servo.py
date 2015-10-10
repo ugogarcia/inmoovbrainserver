@@ -8,48 +8,68 @@ class Servo():
         self.maxPos=180
         self.servoPin=0
         self.arduinoController=controller
-        self.restPos=0
+        self.restPos=90
         self.currentPos=0
         self.isAttached=False
+        self.autoDetachTime=3
+        self.lastMoveTime=0
 
-    def attach(self):
-        self.isAttached=self.arduinoController.servoAttach(self.servoPin)
+    def attach(self, pin=None, defaultPos=None):
+        if pin is not None:
+            self.servoPin=pin
+        if self.servoPin==0:
+            return False
+        if defaultPos is None:
+            defaultPos=self.restPos
+
+        self.arduinoController.servoAttach(self.servoPin, defaultPos)
+        self.isAttached=True
+        self.lastMoveTime=time.time()
+        self.currentPos=defaultPos
         return self.isAttached
-        time.sleep(1)
 
     def detach(self):
-        ok=self.arduinoController.servoDetach(self.servoPin)
-        if ok:
-            self.isAttached=False
-        return ok
-        time.sleep(1)
-
-    def moveTo (self, pos):
-        if not self.isAttached:
-            print ("Servo not attached to Pin")
+        if self.servoPin==0:
             return False
+
+        self.arduinoController.servoDetach(self.servoPin)
+        self.isAttached=False
+        self.lastMoveTime=time.time()
+        return self.isAttached
+
+    def moveTo (self, pos, forceAttach=True):
+        if pos is None:
+            return True
 
         if pos<self.minPos:
             pos=self.minPos
         elif pos>self.maxPos:
             pos=self.maxPos
 
+        if self.servoPin==0:
+            print ("Servo not attached to Pin")
+            return False
+
+        if forceAttach==True and self.isAttached==False:
+            self.attach(self.servoPin, pos)
+        elif forceAttach==False:
+            print ("Servo not attached to Pin")
+            return False
+
         self.arduinoController.servoMoveTo(self.servoPin, pos)
+        self.lastMoveTime=time.time()
         self.currentPos=pos
+        return True
 
     def setSpeed (self, speed):
-        if not self.isAttached:
+        if self.servoPin!=0:
+            self.arduinoController.servoSetSpeed(self.servoPin, speed)
+            self.lastMoveTime=time.time()
+        else:
             print ("Servo not attached to Pin")
-            return False
 
-        self.arduinoController.servoSetSpeed(self.servoPin, speed)
-
-    def rest (self):
-        if not self.isAttached:
-            print ("Servo not attached to Pin")
-            return False
-
-        self.moveTo(self.restPos)
+    def rest (self, forceAttach=True):
+        self.moveTo(self.restPos, forceAttach)
 
 
 
