@@ -10,7 +10,16 @@ class InMoovArm():
         self.bicep=servo.Servo(self.arduinoController)
         self.isAttached=False
 
-    def attach(self):
+    def attach(self, bicepPin=None, rotatePin=None, shoulderPin=None, omoplatePin=None):
+        if omoplatePin!=None:
+            self.omoplate.servoPin=omoplatePin
+        if shoulderPin!=None:
+            self.shoulder.servoPin=shoulderPin
+        if rotatePin!=None:
+            self.rotate.servoPin=rotatePin
+        if bicepPin!=None:
+            self.bicep.servoPin=bicepPin
+
         self.omoplate.attach()
         self.shoulder.attach()
         self.rotate.attach()
