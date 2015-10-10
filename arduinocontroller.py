@@ -5,6 +5,7 @@ import time
 
 MAGIC_NUMBER        = 170
 SERVO_ATTACH        = 6
+SERVO_ATTACH_WITH_DEFAULT        = 100
 SERVO_WRITE         = 7
 SERVO_DETACH        = 9
 SERVO_SET_SPEED     = 12
@@ -36,6 +37,7 @@ class ArduinoController:
         try:
             elements=[byte]
             self.serialObject.write(bytearray(elements))
+            #time.sleep(0.1)
             #print (byte)
         except:
             print ("[ArduinoController.writeToSerial] " , sys.exc_info()[1])
@@ -43,14 +45,14 @@ class ArduinoController:
         else:
             return True
 
-    def servoAttach(self, pin):
+    def servoAttach(self, pin, default):
         # Index siempre es el pin-2. Podríamos quitar este parámetro
         if self.serialObject==None:
             print ("Serial not initialized")
             return False
 
-        self.sendMsg(SERVO_ATTACH, [pin-2, pin])
-        print ("ATTACH Servo to Pin %d" % pin)
+        self.sendMsg(SERVO_ATTACH_WITH_DEFAULT, [pin-2, pin, default])
+        print ("ATTACH Servo to Pin %d with default %d " % (pin, default))
         return True
 
     def servoDetach(self, pin):
